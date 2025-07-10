@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RodriguezAgendaContactosApp.Models;
 using RodriguezAgendaContactosApp.Services;
-using GalaSoft.MvvmLight;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace RodriguezAgendaContactosApp.ViewModels
 {
