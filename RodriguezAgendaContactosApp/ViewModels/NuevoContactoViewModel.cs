@@ -1,6 +1,4 @@
 ﻿using __XamlGeneratedCode__;
-using AVFoundation;
-using MetricKit;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RodriguezAgendaContactosApp.Models;
 using RodriguezAgendaContactosApp.Services;
+using GalaSoft.MvvmLight;
 
 namespace RodriguezAgendaContactosApp.ViewModels
 {
