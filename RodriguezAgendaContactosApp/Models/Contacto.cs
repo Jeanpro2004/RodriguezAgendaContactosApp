@@ -7,7 +7,7 @@ using SQLite;
 
 namespace RodriguezAgendaContactosApp.Models
 {
-    class Contacto
+    public class Contacto
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
