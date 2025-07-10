@@ -9,7 +9,7 @@ namespace RodriguezAgendaContactosApp.Models
 {
     class Contacto
     {
-        [Primary Key, AutoIncrement]
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Correo { get; set; }

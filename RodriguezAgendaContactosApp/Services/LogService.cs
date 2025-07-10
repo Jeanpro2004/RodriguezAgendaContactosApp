@@ -11,7 +11,6 @@ namespace RodriguezAgendaContactosApp.Services
         private static string FilePath => Path.Combine(FileSystem.AppDataDirectory, "Logs_Rodriguez.txt");
 
         public static async Task AppendLogAsync(string nombre)
-
         {
             string log = $"Se incluyo el registro {nombre} el {DateTime.Now:dd/MM/yyyy HH:mm}\n";
             await File.AppendAllTextAsync(FilePath, log);
@@ -20,8 +19,9 @@ namespace RodriguezAgendaContactosApp.Services
         public static async Task<string> ReadLogsAsync()
         {
             if (!File.Exists(FilePath))
+                return "No existen aun logs";
+
             return await File.ReadAllTextAsync(FilePath);
-            return "No existen aun logs";
         }
     }
 }

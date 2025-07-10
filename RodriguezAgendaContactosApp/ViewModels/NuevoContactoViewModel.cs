@@ -1,5 +1,4 @@
-﻿using __XamlGeneratedCode__;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,47 +7,61 @@ using System.Threading.Tasks;
 using RodriguezAgendaContactosApp.Models;
 using RodriguezAgendaContactosApp.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RodriguezAgendaContactosApp.ViewModels
 {
     public partial class NuevoContactoViewModel : ObservableObject
+    {
+        [ObservableProperty]
+        private string nombre;
+        [ObservableProperty]
+        private string correo;
+        [ObservableProperty]
+        private string telefono;
+        [ObservableProperty]
+        private bool favorito;
 
-        [ObservableObject] private string nombre;
-        [ObservableObject] private string correo;
-        [ObservableObject] private string telefono;
-        [ObservableObject] private bool favorito;
-
-        private ContactoDatabase _database;
+        private readonly ContactoDatabase _database;
 
         public NuevoContactoViewModel(ContactoDatabase database)
-    {
-        _database = database;
-    }
-
-    [RelayComand]
-
-    public async Task GuardarAsync()
-    {
-        if (!Telefono .StartsWith("+593"))
         {
-            await Application.Current.MainPage.DisplayAlert("Error", "El número de teléfono debe comenzar con +593", "OK");
-            return;
+            _database = database;
         }
 
-        var contacto = new Contacto
+        [RelayCommand]
+        public async Task GuardarAsync()
         {
-            Nombre = Nombre,
-            Correo = Correo,
-            Telefono = Telefono,
-            Favorito = Favorito
-        };
+            
+            if (string.IsNullOrWhiteSpace(Telefono) || !Telefono.StartsWith("+593"))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "El número de teléfono debe comenzar con +593", "OK");
+                return;
+            }
 
-        await _database.SaveContactoAsync(contacto);
-        await Application.Current.MainPage.DisplayAlert("Éxito", "Contacto guardado correctamente", "OK");
+            
+            if (string.IsNullOrWhiteSpace(Nombre) || string.IsNullOrWhiteSpace(Correo))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Por favor complete todos los campos", "OK");
+                return;
+            }
 
-        Nombre = Correo = Telefono = string.Empty;
-        Favorito = false;
-    }
-    
+            var contacto = new Contacto
+            {
+                Nombre = Nombre,
+                Correo = Correo,
+                Telefono = Telefono,
+                Favorito = Favorito
+            };
+
+            await _database.SaveContactoAsync(contacto);
+            // Agregar al log
+            await LogService.AppendLogAsync(Nombre);
+            await Application.Current.MainPage.DisplayAlert("Éxito", "Contacto guardado correctamente", "OK");
+
+            // Limpiar campos
+            Nombre = Correo = Telefono = string.Empty;
+            Favorito = false;
+        }
     }
 }
